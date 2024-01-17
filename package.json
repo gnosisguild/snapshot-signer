@@ -3,8 +3,8 @@
   "description": "",
   "version": "1.0.0",
   "author": {
-    "name": "gnosisguild",
-    "url": "https://github.com/gnosisguild"
+    "name": "Gnosis Guild",
+    "url": "https://gnosisguild.org"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",
@@ -12,6 +12,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.2",
+    "@safe-global/safe-contracts": "^1.4.1-build.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
@@ -23,12 +24,12 @@
     "@typescript-eslint/parser": "^6.14.0",
     "chai": "^4.3.10",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
-    "ethers": "^6.9.0",
+    "ethers": "^6.10.0",
     "fs-extra": "^11.2.0",
     "hardhat": "^2.19.2",
-    "hardhat-deploy": "^0.11.45",
     "hardhat-gas-reporter": "^1.0.9",
     "lodash": "^4.17.21",
     "mocha": "^10.2.0",
@@ -46,17 +47,7 @@
   "files": [
     "contracts"
   ],
-  "keywords": [
-    "blockchain",
-    "ethers",
-    "ethereum",
-    "hardhat",
-    "smart-contracts",
-    "solidity",
-    "template",
-    "typescript",
-    "typechain"
-  ],
+  "keywords": [],
   "publishConfig": {
     "access": "public"
   },
@@ -64,15 +55,13 @@
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && bun run typechain",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && bun run typechain",
-    "deploy:contracts": "hardhat deploy",
+    "deploy": "hardhat task:deployLock",
     "lint": "bun run lint:sol && bun run lint:ts && bun run prettier:check",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",
     "postcompile": "bun run typechain",
     "prettier:check": "prettier --check \"**/*.{js,json,md,sol,ts,yml}\"",
     "prettier:write": "prettier --write \"**/*.{js,json,md,sol,ts,yml}\"",
-    "task:deployLock": "hardhat task:deployLock",
-    "task:withdraw": "hardhat task:withdraw",
     "test": "hardhat test",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   }

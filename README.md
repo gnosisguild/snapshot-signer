@@ -75,19 +75,7 @@ First, you need to install the dependencies:
 $ bun install
 ```
 
-Then, you need to set up all the required
-[Hardhat Configuration Variables](https://hardhat.org/hardhat-runner/docs/guides/configuration-variables). You might
-also want to install some that are optional.
-
-To assist with the setup process, run `bunx hardhat vars setup`. To set a particular value, such as a BIP-39 mnemonic
-variable, execute this:
-
-```sh
-$ bunx hardhat vars set MNEMONIC
-? Enter value: ‣ here is where your twelve words mnemonic should be put my friend
-```
-
-If you do not already have a mnemonic, you can generate one using this [website](https://iancoleman.io/bip39/).
+Then, you need to set up all the required env variable. Create a `.env` file based on `.env.example`.
 
 ### Compile
 
@@ -158,7 +146,7 @@ $ bun run clean
 Deploy the contracts to Hardhat Network:
 
 ```sh
-$ bun run deploy:contracts
+$ bun run deploy
 ```
 
 ### Tasks

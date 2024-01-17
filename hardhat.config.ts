@@ -1,24 +1,25 @@
 import "@nomicfoundation/hardhat-toolbox";
-import "hardhat-deploy";
+import dotenv from "dotenv";
 import type { HardhatUserConfig } from "hardhat/config";
-import { vars } from "hardhat/config";
 import type { NetworkUserConfig } from "hardhat/types";
 
 import "./tasks/accounts";
-import "./tasks/lock";
+import "./tasks/deploy";
 
-// Run 'npx hardhat vars setup' to see the list of variables that need to be set
+dotenv.config();
+const { INFURA_KEY, PK, MNEMONIC, ETHERSCAN_API_KEY } = process.env;
 
-const mnemonic: string = vars.get("MNEMONIC");
-const infuraApiKey: string = vars.get("INFURA_API_KEY");
+if (!PK && !MNEMONIC) {
+  throw new Error("No PK or MNEMONIC set");
+}
 
 const chainIds = {
   "arbitrum-mainnet": 42161,
   avalanche: 43114,
   bsc: 56,
-  ganache: 1337,
   hardhat: 31337,
   mainnet: 1,
+  gnosis: 100,
   "optimism-mainnet": 10,
   "polygon-mainnet": 137,
   "polygon-mumbai": 80001,
@@ -35,14 +36,10 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://bsc-dataseed1.binance.org";
       break;
     default:
-      jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey;
+      jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + INFURA_KEY;
   }
   return {
-    accounts: {
-      count: 10,
-      mnemonic,
-      path: "m/44'/60'/0'/0",
-    },
+    accounts: PK ? [PK] : { mnemonic: MNEMONIC! },
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
@@ -50,19 +47,9 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
-  namedAccounts: {
-    deployer: 0,
-  },
   etherscan: {
     apiKey: {
-      arbitrumOne: vars.get("ARBISCAN_API_KEY", ""),
-      avalanche: vars.get("SNOWTRACE_API_KEY", ""),
-      bsc: vars.get("BSCSCAN_API_KEY", ""),
-      mainnet: vars.get("ETHERSCAN_API_KEY", ""),
-      optimisticEthereum: vars.get("OPTIMISM_API_KEY", ""),
-      polygon: vars.get("POLYGONSCAN_API_KEY", ""),
-      polygonMumbai: vars.get("POLYGONSCAN_API_KEY", ""),
-      sepolia: vars.get("ETHERSCAN_API_KEY", ""),
+      mainnet: ETHERSCAN_API_KEY!,
     },
   },
   gasReporter: {
@@ -74,16 +61,9 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       accounts: {
-        mnemonic,
+        mnemonic: MNEMONIC,
       },
       chainId: chainIds.hardhat,
-    },
-    ganache: {
-      accounts: {
-        mnemonic,
-      },
-      chainId: chainIds.ganache,
-      url: "http://localhost:8545",
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
     avalanche: getChainConfig("avalanche"),
@@ -101,7 +81,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.19",
+    version: "0.8.21",
     settings: {
       metadata: {
         // Not including the metadata hash
