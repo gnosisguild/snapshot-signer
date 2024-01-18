@@ -10,20 +10,20 @@ contract SnapshotSigner {
     error SignMessageLibCallFailed();
 
     struct Domain {
-        bytes32 name;
-        bytes32 version;
+        string name;
+        string version;
     }
     bytes32 private constant DOMAIN_TYPE_HASH = keccak256("EIP712Domain(string name,string version)");
 
     struct Vote {
         address from;
-        bytes32 space;
+        string space;
         uint64 timestamp;
         bytes32 proposal;
         uint32 choice;
-        bytes32 reason;
-        bytes32 app;
-        bytes32 metadata;
+        string reason;
+        string app;
+        string metadata;
     }
     bytes32 private constant VOTE_TYPE_HASH =
         keccak256(
@@ -32,13 +32,13 @@ contract SnapshotSigner {
 
     struct VoteArray {
         address from;
-        bytes32 space;
+        string space;
         uint64 timestamp;
         bytes32 proposal;
         uint32[] choice;
-        bytes32 reason;
-        bytes32 app;
-        bytes32 metadata;
+        string reason;
+        string app;
+        string metadata;
     }
     bytes32 private constant VOTE_ARRAY_TYPE_HASH =
         keccak256(
@@ -47,13 +47,13 @@ contract SnapshotSigner {
 
     struct VoteString {
         address from;
-        bytes32 space;
+        string space;
         uint64 timestamp;
         bytes32 proposal;
-        bytes32 choice;
-        bytes32 reason;
-        bytes32 app;
-        bytes32 metadata;
+        string choice;
+        string reason;
+        string app;
+        string metadata;
     }
     bytes32 private constant VOTE_STRING_TYPE_HASH =
         keccak256(
@@ -77,13 +77,13 @@ contract SnapshotSigner {
             abi.encode(
                 VOTE_TYPE_HASH,
                 vote.from,
-                vote.space,
+                keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
                 vote.choice,
-                vote.reason,
-                vote.app,
-                vote.metadata
+                keccak256(bytes(vote.reason)),
+                keccak256(bytes(vote.app)),
+                keccak256(bytes(vote.metadata))
             ),
             domain
         );
@@ -98,13 +98,13 @@ contract SnapshotSigner {
             abi.encode(
                 VOTE_ARRAY_TYPE_HASH,
                 vote.from,
-                vote.space,
+                keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
                 vote.choice,
-                vote.reason,
-                vote.app,
-                vote.metadata
+                keccak256(bytes(vote.reason)),
+                keccak256(bytes(vote.app)),
+                keccak256(bytes(vote.metadata))
             ),
             domain
         );
@@ -119,13 +119,13 @@ contract SnapshotSigner {
             abi.encode(
                 VOTE_STRING_TYPE_HASH,
                 vote.from,
-                vote.space,
+                keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
-                vote.choice,
-                vote.reason,
-                vote.app,
-                vote.metadata
+                keccak256(bytes(vote.choice)),
+                keccak256(bytes(vote.reason)),
+                keccak256(bytes(vote.app)),
+                keccak256(bytes(vote.metadata))
             ),
             domain
         );
@@ -137,7 +137,7 @@ contract SnapshotSigner {
             revert InvalidCall();
         }
 
-        // Then forwards to the Safe SignMessageLib in another delegatecall
+        // Then forward to the Safe SignMessageLib in another delegatecall
         (bool success, ) = signMessageLib.delegatecall(
             abi.encodeWithSignature(
                 "signMessage(bytes)",
@@ -151,7 +151,7 @@ contract SnapshotSigner {
     }
 
     function _buildDomainSeparator(Domain calldata domain) internal pure returns (bytes32) {
-        return keccak256(abi.encode(DOMAIN_TYPE_HASH, domain.name, domain.version));
+        return keccak256(abi.encode(DOMAIN_TYPE_HASH, keccak256(bytes(domain.name)), keccak256(bytes(domain.version))));
     }
 
     /**
