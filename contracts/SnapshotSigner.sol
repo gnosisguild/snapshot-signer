@@ -93,7 +93,7 @@ contract SnapshotSigner {
      * @notice Marks a snapshot vote message as signed.
      * @param vote The snapshot multiple choice vote message.
      */
-    function signSnapshotVote(VoteArray calldata vote, Domain calldata domain) external {
+    function signSnapshotArrayVote(VoteArray calldata vote, Domain calldata domain) external {
         _sign(
             abi.encode(
                 VOTE_ARRAY_TYPE_HASH,
@@ -114,7 +114,7 @@ contract SnapshotSigner {
      * @notice Marks a snapshot vote message as signed.
      * @param vote The snapshot string vote message.
      */
-    function signSnapshotVote(VoteString calldata vote, Domain calldata domain) external {
+    function signSnapshotStringVote(VoteString calldata vote, Domain calldata domain) external {
         _sign(
             abi.encode(
                 VOTE_STRING_TYPE_HASH,
