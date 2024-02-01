@@ -1,3 +1,4 @@
+import { concat } from "ethers";
 import { task } from "hardhat/config";
 import type { TaskArguments } from "hardhat/types";
 
@@ -19,8 +20,10 @@ task("task:deploy", "Deploys SnapshotSigner Contract")
     // const snapshotSigner = await snapshotSignerFactory.connect(signers[0]).deploy(signMessageLib);
 
     const snapshotSignerFactory = await ethers.getContractFactory("SnapshotSigner");
-    const initCode = snapshotSignerFactory.interface.encodeDeploy([signMessageLib]);
-
+    const initCode = concat([
+      snapshotSignerFactory.bytecode,
+      snapshotSignerFactory.interface.encodeDeploy([signMessageLib]),
+    ]);
     const address = await deployViaFactory(initCode, signers[0]);
 
     console.log(`SnapshotSigner deployed to: ${address}`);

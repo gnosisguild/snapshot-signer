@@ -51,6 +51,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       mainnet: ETHERSCAN_API_KEY!,
+      sepolia: ETHERSCAN_API_KEY!,
     },
   },
   gasReporter: {
