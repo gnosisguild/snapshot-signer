@@ -13,7 +13,7 @@ An adapter contract to plug in front of the Safe SignMessageLib, producing EIP-7
 
 ## Audits
 
-An audit have been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis.
+An audit has been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis.
 
 No issues have been identified in the audit.
 
