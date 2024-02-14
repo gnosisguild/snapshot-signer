@@ -1,69 +1,37 @@
-# Hardhat Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# SnapshotSigner [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
 
-[gitpod]: https://gitpod.io/#https://github.com/paulrberg/hardhat-template
+[gitpod]: https://gitpod.io/#https://github.com/gnosisguild/snapshot-signer
 [gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/paulrberg/hardhat-template/actions
-[gha-badge]: https://github.com/paulrberg/hardhat-template/actions/workflows/ci.yml/badge.svg
+[gha]: https://github.com/gnosisguild/snapshot-signer/actions
+[gha-badge]: https://github.com/gnosisguild/snapshot-signer/actions/workflows/ci.yml/badge.svg
 [hardhat]: https://hardhat.org/
 [hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
 [license]: https://opensource.org/licenses/MIT
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
+An adapter contract to plug in front of the Safe SignMessageLib, producing EIP-712 signatures for Snapshot votes
 
-- [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
-- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
-- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
-- [Solhint](https://github.com/protofire/solhint): code linter
-- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
-- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+## Audits
 
-## Getting Started
+An audit have been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis.
 
-Click the [`Use this template`](https://github.com/paulrberg/hardhat-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
+No issues have been identified in the audit.
 
-## Features
+The audit reports are available at [https://gnosischain.notion.site/Snapshot-Signer-f890f1f3dba74f11bdd1702d17d9e05c].
 
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentations.
+## Security and Liability
 
-For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the
-[Hardhat Docs](https://hardhat.org/docs). You might be in particular interested in reading the
-[Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
+All contracts are WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
 
-### Sensible Defaults
+## Deployments
 
-This template comes with sensible default configurations in the following files:
+Address: `0xb0382209806345d27dFdAB5Bbc17B2AB553165ac`
 
-```text
-├── .editorconfig
-├── .eslintignore
-├── .eslintrc.yml
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solcover.js
-├── .solhint.json
-└── hardhat.config.ts
-```
+- [Sepolia](https://sepolia.etherscan.io/address/0xb0382209806345d27dFdAB5Bbc17B2AB553165ac#code)
+- [Arbitrum](https://arbiscan.io/address/0xb0382209806345d27dFdAB5Bbc17B2AB553165ac#code)
 
-### VSCode Integration
-
-This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Nomic
-Foundation's [Solidity extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity).
-
-### GitHub Actions
-
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
-
-Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
-
-For more information on how to set up GitHub secrets, check out the
-[docs](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions).
-
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
+(forwarding to `SignMessageLib` at `0xd53cd0aB83D845Ac265BE939c57F53AD838012c9`)
 
 ## Usage
 
@@ -143,51 +111,19 @@ $ bun run clean
 
 ### Deploy
 
-Deploy the contracts to Hardhat Network:
+Deploy the contract:
 
 ```sh
-$ bun run deploy
+$ bun run deploy <network>
 ```
 
-### Tasks
+Currently the following values for network are supported:
 
-#### Deploy Lock
-
-Deploy a new instance of the Lock contract via a task:
-
-```sh
-$ bun run task:deployLock --unlock 100 --value 0.1
-```
-
-### Syntax Highlighting
-
-If you use VSCode, you can get Solidity syntax highlighting with the
-[hardhat-solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity) extension.
-
-## Using GitPod
-
-[GitPod](https://www.gitpod.io/) is an open-source developer platform for remote development.
-
-To view the coverage report generated by `bun run coverage`, just click `Go Live` from the status bar to turn the server
-on/off.
-
-## Local development with Ganache
-
-### Install Ganache
-
-```sh
-$ npm i -g ganache
-```
-
-### Run a Development Blockchain
-
-```sh
-$ ganache -s test
-```
-
-> The `-s test` passes a seed to the local chain and makes it deterministic
-
-Make sure to set the mnemonic in your `.env` file to that of the instance running with Ganache.
+- `hardhat`
+- `mainnet`
+- `sepolia`
+- `gnosis`
+- `arbitrum`
 
 ## License
 
