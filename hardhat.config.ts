@@ -7,7 +7,7 @@ import "./tasks/accounts";
 import "./tasks/deploy";
 
 dotenv.config();
-const { INFURA_KEY, ETHERSCAN_API_KEY, PK } = process.env;
+const { INFURA_KEY, ETHERSCAN_API_KEY, ARBISCAN_API_KEY, MNEMONIC } = process.env;
 
 const chainIds = {
   hardhat: 31337,
@@ -30,7 +30,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + INFURA_KEY;
   }
   return {
-    accounts: PK ? [PK] : [],
+    accounts: MNEMONIC ? { mnemonic: MNEMONIC } : [],
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
@@ -42,6 +42,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       mainnet: ETHERSCAN_API_KEY!,
       sepolia: ETHERSCAN_API_KEY!,
+      arbitrumOne: ARBISCAN_API_KEY,
     },
   },
   gasReporter: {
