@@ -117,7 +117,7 @@ Deploy the contract:
 $ bun run deploy <network>
 ```
 
-Currently the following values for network are supported:
+Currently the following values for `<network>` are supported:
 
 - `hardhat`
 - `mainnet`
