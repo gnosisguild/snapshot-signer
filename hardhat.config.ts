@@ -7,40 +7,30 @@ import "./tasks/accounts";
 import "./tasks/deploy";
 
 dotenv.config();
-const { INFURA_KEY, PK, MNEMONIC, ETHERSCAN_API_KEY } = process.env;
-
-if (!PK && !MNEMONIC) {
-  throw new Error("No PK or MNEMONIC set");
-}
+const { INFURA_KEY, ETHERSCAN_API_KEY, PK } = process.env;
 
 const chainIds = {
-  "arbitrum-mainnet": 42161,
-  avalanche: 43114,
-  bsc: 56,
   hardhat: 31337,
   mainnet: 1,
-  goerli: 5,
   gnosis: 100,
-  "optimism-mainnet": 10,
-  "polygon-mainnet": 137,
-  "polygon-mumbai": 80001,
+  arbitrum: 42161,
   sepolia: 11155111,
 };
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   let jsonRpcUrl: string;
   switch (chain) {
-    case "avalanche":
-      jsonRpcUrl = "https://api.avax.network/ext/bc/C/rpc";
+    case "arbitrum":
+      jsonRpcUrl = "https://rpc.arb1.arbitrum.gateway.fm";
       break;
-    case "bsc":
-      jsonRpcUrl = "https://bsc-dataseed1.binance.org";
+    case "gnosis":
+      jsonRpcUrl = "https://rpc.gnosischain.com";
       break;
     default:
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + INFURA_KEY;
   }
   return {
-    accounts: PK ? [PK] : { mnemonic: MNEMONIC! },
+    accounts: PK ? [PK] : [],
     chainId: chainIds[chain],
     url: jsonRpcUrl,
   };
@@ -63,18 +53,12 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       accounts: {
-        mnemonic: MNEMONIC,
+        mnemonic: "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat",
       },
       chainId: chainIds.hardhat,
     },
-    arbitrum: getChainConfig("arbitrum-mainnet"),
-    avalanche: getChainConfig("avalanche"),
-    bsc: getChainConfig("bsc"),
+    arbitrum: getChainConfig("arbitrum"),
     mainnet: getChainConfig("mainnet"),
-    goerli: getChainConfig("goerli"),
-    optimism: getChainConfig("optimism-mainnet"),
-    "polygon-mainnet": getChainConfig("polygon-mainnet"),
-    "polygon-mumbai": getChainConfig("polygon-mumbai"),
     sepolia: getChainConfig("sepolia"),
   },
   paths: {
