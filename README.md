@@ -13,11 +13,9 @@ An adapter contract to plug in front of the Safe SignMessageLib, producing EIP-7
 
 ## Audits
 
-An audit has been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis.
+An audit has been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis. No issues have been identified in the audit.
 
-No issues have been identified in the audit.
-
-The audit reports are available at https://gnosischain.notion.site/Snapshot-Signer-f890f1f3dba74f11bdd1702d17d9e05c.
+The audit report is available at https://gnosischain.notion.site/Snapshot-Signer-f890f1f3dba74f11bdd1702d17d9e05c.
 
 ## Security and Liability
 
