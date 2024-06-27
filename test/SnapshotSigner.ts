@@ -113,14 +113,14 @@ describe("SnapshotSigner", () => {
       const { safe, snapshotSigner, signMessageLib } = await loadFixture(deploySnapshotSignerFixtureWithLibMock);
 
       const vote = {
-        from: "0x849d52316331967b6ff1198e5e32a0eb168d039d",
-        space: "lido-snapshot.eth",
-        timestamp: 1705506751,
-        proposal: "0xc12ae07242326a719cb6b6a5eb19cb77eb4515b4a5ebe58508f965a5b9abb27c",
-        choice: [1, 2],
-        reason: "test",
+        space: "1.snapspace.eth",
+        proposal: "0xe4c12ed0735f021aabbe934f638d6d30aadf578efa2407c42329462cd58b262d",
+        choice: [1, 2, 3, 4],
         app: "snapshot",
+        reason: "",
         metadata: "{}",
+        from: "0xfd0b893117d583bd63c31bb90a25842c739e8322",
+        timestamp: 1719484134,
       };
 
       const domain = {
@@ -137,7 +137,8 @@ describe("SnapshotSigner", () => {
       const rec = await res.wait();
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
-      expect(data).to.equal("0x3da1747f8cf8c87e6d599bd083ea7aa62a616ed14c933b117c3b5c23ead3cb0b");
+      // got the expected data from triggering a test vote with above data through the snapshot UI
+      expect(data).to.equal("0xf6bd6d2f2801d3ce9caf1518c4598056cb3d9222e0cd740506e7c2527b2ef07c");
     });
   });
 
@@ -146,12 +147,12 @@ describe("SnapshotSigner", () => {
       const { safe, snapshotSigner, signMessageLib } = await loadFixture(deploySnapshotSignerFixtureWithLibMock);
 
       const vote = {
-        from: "0x849d52316331967b6ff1198e5e32a0eb168d039d",
-        space: "lido-snapshot.eth",
-        timestamp: 1705506751,
-        proposal: "0xc12ae07242326a719cb6b6a5eb19cb77eb4515b4a5ebe58508f965a5b9abb27c",
-        choice: "test choice",
-        reason: "test",
+        from: "0xfd0b893117d583bd63c31bb90a25842c739e8322",
+        space: "1.snapspace.eth",
+        timestamp: 1719486640,
+        proposal: "0x27a4fe0aaad6665e37788b3e97d98165f287a8338d0676697aea46047465d026",
+        choice: '{"1":4,"2":1}',
+        reason: "",
         app: "snapshot",
         metadata: "{}",
       };
@@ -170,7 +171,8 @@ describe("SnapshotSigner", () => {
       const rec = await res.wait();
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
-      expect(data).to.equal("0xc20bf6a9aedc1e421710cd5a9fdbd3c7f878a0baf563a9b9859ad81277eaf2eb");
+      // got the expected data from triggering a test vote with above data through the snapshot UI
+      expect(data).to.equal("0x07960f31f18373e98efa672d04cbd93ea02932249745b7d3bfa0e02070000653");
     });
   });
 });

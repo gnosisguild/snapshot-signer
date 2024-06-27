@@ -101,7 +101,7 @@ contract SnapshotSigner {
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
-                vote.choice,
+                keccak256(abi.encodePacked(vote.choice)),
                 keccak256(bytes(vote.reason)),
                 keccak256(bytes(vote.app)),
                 keccak256(bytes(vote.metadata))
