@@ -2,6 +2,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ZeroAddress } from "ethers";
 import { ethers } from "hardhat";
+import { hashTypedData } from "viem";
 
 import { SnapshotSigner__factory } from "../types";
 import { deploySnapshotSignerFixture, deploySnapshotSignerFixtureWithLibMock } from "./SnapshotSigner.fixture";
@@ -19,13 +20,13 @@ describe("SnapshotSigner", () => {
     const vote = {
       from: "0x849d52316331967b6ff1198e5e32a0eb168d039d",
       space: "lido-snapshot.eth",
-      timestamp: 1705506751,
+      timestamp: 1705506751n,
       proposal: "0xc12ae07242326a719cb6b6a5eb19cb77eb4515b4a5ebe58508f965a5b9abb27c",
       choice: 1,
       reason: "test",
       app: "snapshot",
       metadata: "{}",
-    };
+    } as const;
 
     const domain = {
       name: "snapshot",
@@ -60,8 +61,23 @@ describe("SnapshotSigner", () => {
       console.log(await snapshotSigner.signMessageLib(), await signMessageLib.getAddress());
       await safe.exec(await snapshotSigner.getAddress(), 0, signVoteTxData, 1);
 
-      // got the expected data from triggering a test vote with above data through the snapshot UI
-      const expectedData = "0xf625cbfe7e2814f4213d465f1ed87a2d4a2e7bce12e01974ef635d8d50cfc06e";
+      const expectedData = hashTypedData({
+        domain,
+        types: {
+          Vote: [
+            { name: "from", type: "string" },
+            { name: "space", type: "string" },
+            { name: "timestamp", type: "uint64" },
+            { name: "proposal", type: "bytes32" },
+            { name: "choice", type: "uint32" },
+            { name: "reason", type: "string" },
+            { name: "app", type: "string" },
+            { name: "metadata", type: "string" },
+          ],
+        },
+        primaryType: "Vote",
+        message: vote,
+      });
 
       const [expectedHash] = await safe.execResult.staticCallResult(
         await signMessageLib.getAddress(),
@@ -81,13 +97,13 @@ describe("SnapshotSigner", () => {
       const vote = {
         from: "0x849d52316331967b6ff1198e5e32a0eb168d039d",
         space: "lido-snapshot.eth",
-        timestamp: 1705506751,
+        timestamp: 1705506751n,
         proposal: "0xc12ae07242326a719cb6b6a5eb19cb77eb4515b4a5ebe58508f965a5b9abb27c",
         choice: 1,
         reason: "test",
         app: "snapshot",
         metadata: "{}",
-      };
+      } as const;
 
       const domain = {
         name: "snapshot",
@@ -103,8 +119,25 @@ describe("SnapshotSigner", () => {
       const rec = await res.wait();
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
-      // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0xf625cbfe7e2814f4213d465f1ed87a2d4a2e7bce12e01974ef635d8d50cfc06e");
+      const expectedData = hashTypedData({
+        domain,
+        types: {
+          Vote: [
+            { name: "from", type: "string" },
+            { name: "space", type: "string" },
+            { name: "timestamp", type: "uint64" },
+            { name: "proposal", type: "bytes32" },
+            { name: "choice", type: "uint32" },
+            { name: "reason", type: "string" },
+            { name: "app", type: "string" },
+            { name: "metadata", type: "string" },
+          ],
+        },
+        primaryType: "Vote",
+        message: vote,
+      });
+
+      expect(data).to.equal(expectedData);
     });
   });
 
@@ -120,8 +153,8 @@ describe("SnapshotSigner", () => {
         reason: "",
         metadata: "{}",
         from: "0xfd0b893117d583bd63c31bb90a25842c739e8322",
-        timestamp: 1719484134,
-      };
+        timestamp: 1719484134n,
+      } as const;
 
       const domain = {
         name: "snapshot",
@@ -137,8 +170,25 @@ describe("SnapshotSigner", () => {
       const rec = await res.wait();
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
-      // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0x98fc31633ef5e5ac6627aaab2ad49766e03d5d27fa3928fa51917d523894a8f6");
+      const expectedData = hashTypedData({
+        domain,
+        types: {
+          Vote: [
+            { name: "from", type: "string" },
+            { name: "space", type: "string" },
+            { name: "timestamp", type: "uint64" },
+            { name: "proposal", type: "bytes32" },
+            { name: "choice", type: "uint32[]" },
+            { name: "reason", type: "string" },
+            { name: "app", type: "string" },
+            { name: "metadata", type: "string" },
+          ],
+        },
+        primaryType: "Vote",
+        message: vote,
+      });
+
+      expect(data).to.equal(expectedData);
     });
   });
 
@@ -149,13 +199,13 @@ describe("SnapshotSigner", () => {
       const vote = {
         from: "0xfd0b893117d583bd63c31bb90a25842c739e8322",
         space: "1.snapspace.eth",
-        timestamp: 1719486640,
+        timestamp: 1719486640n,
         proposal: "0x27a4fe0aaad6665e37788b3e97d98165f287a8338d0676697aea46047465d026",
         choice: '{"1":4,"2":1}',
         reason: "",
         app: "snapshot",
         metadata: "{}",
-      };
+      } as const;
 
       const domain = {
         name: "snapshot",
@@ -171,8 +221,25 @@ describe("SnapshotSigner", () => {
       const rec = await res.wait();
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
-      // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0xd895136a35baa2d498cea7e2770b8abff4ea5cc08289bf1c6fe40fe36b23e795");
+      const expectedData = hashTypedData({
+        domain,
+        types: {
+          Vote: [
+            { name: "from", type: "string" },
+            { name: "space", type: "string" },
+            { name: "timestamp", type: "uint64" },
+            { name: "proposal", type: "bytes32" },
+            { name: "choice", type: "string" },
+            { name: "reason", type: "string" },
+            { name: "app", type: "string" },
+            { name: "metadata", type: "string" },
+          ],
+        },
+        primaryType: "Vote",
+        message: vote,
+      });
+
+      expect(data).to.equal(expectedData);
     });
   });
 });
