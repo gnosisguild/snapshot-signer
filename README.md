@@ -25,10 +25,10 @@ PURPOSE.
 
 ## Deployments
 
-Address: `0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1`
+Address: `0xD88504B3e646454D6d458dd610B6c351d7bcAA0f`
 
-- [Sepolia](https://sepolia.etherscan.io/address/0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1#code)
-- [Arbitrum](https://arbiscan.io/address/0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1#code)
+- [Sepolia](https://sepolia.etherscan.io/address/0xD88504B3e646454D6d458dd610B6c351d7bcAA0f#code)
+- [Arbitrum](https://arbiscan.io/address/0xD88504B3e646454D6d458dd610B6c351d7bcAA0f#code)
 
 (forwarding to `SignMessageLib` at `0xd53cd0aB83D845Ac265BE939c57F53AD838012c9`)
 
