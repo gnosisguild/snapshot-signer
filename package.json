@@ -56,7 +56,7 @@
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && bun run typechain",
     "deploy": "hardhat task:deploy --network",
-    "verify": "hardhat verify 0xb0382209806345d27dFdAB5Bbc17B2AB553165ac 0xd53cd0aB83D845Ac265BE939c57F53AD838012c9 --network",
+    "verify": "hardhat verify 0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1 0xd53cd0aB83D845Ac265BE939c57F53AD838012c9 --network",
     "lint": "bun run lint:sol && bun run lint:ts && bun run prettier:check",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",

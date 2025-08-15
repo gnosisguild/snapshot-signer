@@ -21,7 +21,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   let jsonRpcUrl: string;
   switch (chain) {
     case "arbitrum":
-      jsonRpcUrl = "https://rpc.arb1.arbitrum.gateway.fm";
+      jsonRpcUrl = "https://rpc.ankr.com/arbitrum";
       break;
     case "gnosis":
       jsonRpcUrl = "https://rpc.gnosischain.com";

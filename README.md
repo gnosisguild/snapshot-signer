@@ -13,7 +13,8 @@ An adapter contract to plug in front of the Safe SignMessageLib, producing EIP-7
 
 ## Audits
 
-An audit has been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis. No issues have been identified in the audit.
+An audit has been performed by [Côme du Crest](https://cducrest.github.io/auditor-blog/) for Gnosis. No issues have been
+identified in the audit.
 
 The audit report is available at https://gnosischain.notion.site/Snapshot-Signer-f890f1f3dba74f11bdd1702d17d9e05c.
 
@@ -24,10 +25,10 @@ PURPOSE.
 
 ## Deployments
 
-Address: `0xb0382209806345d27dFdAB5Bbc17B2AB553165ac`
+Address: `0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1`
 
-- [Sepolia](https://sepolia.etherscan.io/address/0xb0382209806345d27dFdAB5Bbc17B2AB553165ac#code)
-- [Arbitrum](https://arbiscan.io/address/0xb0382209806345d27dFdAB5Bbc17B2AB553165ac#code)
+- [Sepolia](https://sepolia.etherscan.io/address/0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1#code)
+- [Arbitrum](https://arbiscan.io/address/0xa58Cf66d0f14AEFb2389c6998f6ad219dd4885c1#code)
 
 (forwarding to `SignMessageLib` at `0xd53cd0aB83D845Ac265BE939c57F53AD838012c9`)
 
