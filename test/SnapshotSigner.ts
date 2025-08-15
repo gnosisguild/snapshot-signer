@@ -61,7 +61,7 @@ describe("SnapshotSigner", () => {
       await safe.exec(await snapshotSigner.getAddress(), 0, signVoteTxData, 1);
 
       // got the expected data from triggering a test vote with above data through the snapshot UI
-      const expectedData = "0x464975e8555fb6c08d392a9f4348dfc47a84fff0373877a746f9283d6e170509";
+      const expectedData = "0xf625cbfe7e2814f4213d465f1ed87a2d4a2e7bce12e01974ef635d8d50cfc06e";
 
       const [expectedHash] = await safe.execResult.staticCallResult(
         await signMessageLib.getAddress(),
@@ -104,7 +104,7 @@ describe("SnapshotSigner", () => {
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
       // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0x464975e8555fb6c08d392a9f4348dfc47a84fff0373877a746f9283d6e170509");
+      expect(data).to.equal("0xf625cbfe7e2814f4213d465f1ed87a2d4a2e7bce12e01974ef635d8d50cfc06e");
     });
   });
 
@@ -138,7 +138,7 @@ describe("SnapshotSigner", () => {
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
       // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0xf6bd6d2f2801d3ce9caf1518c4598056cb3d9222e0cd740506e7c2527b2ef07c");
+      expect(data).to.equal("0x98fc31633ef5e5ac6627aaab2ad49766e03d5d27fa3928fa51917d523894a8f6");
     });
   });
 
@@ -172,7 +172,7 @@ describe("SnapshotSigner", () => {
       const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
 
       // got the expected data from triggering a test vote with above data through the snapshot UI
-      expect(data).to.equal("0x07960f31f18373e98efa672d04cbd93ea02932249745b7d3bfa0e02070000653");
+      expect(data).to.equal("0xd895136a35baa2d498cea7e2770b8abff4ea5cc08289bf1c6fe40fe36b23e795");
     });
   });
 });
