@@ -39,11 +39,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   etherscan: {
-    apiKey: {
-      mainnet: ETHERSCAN_API_KEY!,
-      sepolia: ETHERSCAN_API_KEY!,
-      arbitrumOne: ARBISCAN_API_KEY!,
-    },
+    apiKey: ETHERSCAN_API_KEY!,
   },
   gasReporter: {
     currency: "USD",
