@@ -16,7 +16,7 @@ contract SnapshotSigner {
     bytes32 private constant DOMAIN_TYPE_HASH = keccak256("EIP712Domain(string name,string version)");
 
     struct Vote {
-        address from;
+        string from;
         string space;
         uint64 timestamp;
         bytes32 proposal;
@@ -27,11 +27,11 @@ contract SnapshotSigner {
     }
     bytes32 private constant VOTE_TYPE_HASH =
         keccak256(
-            "Vote(address from,string space,uint64 timestamp,bytes32 proposal,uint32 choice,string reason,string app,string metadata)"
+            "Vote(string from,string space,uint64 timestamp,bytes32 proposal,uint32 choice,string reason,string app,string metadata)"
         );
 
     struct VoteArray {
-        address from;
+        string from;
         string space;
         uint64 timestamp;
         bytes32 proposal;
@@ -42,11 +42,11 @@ contract SnapshotSigner {
     }
     bytes32 private constant VOTE_ARRAY_TYPE_HASH =
         keccak256(
-            "Vote(address from,string space,uint64 timestamp,bytes32 proposal,uint32[] choice,string reason,string app,string metadata)"
+            "Vote(string from,string space,uint64 timestamp,bytes32 proposal,uint32[] choice,string reason,string app,string metadata)"
         );
 
     struct VoteString {
-        address from;
+        string from;
         string space;
         uint64 timestamp;
         bytes32 proposal;
@@ -57,7 +57,7 @@ contract SnapshotSigner {
     }
     bytes32 private constant VOTE_STRING_TYPE_HASH =
         keccak256(
-            "Vote(address from,string space,uint64 timestamp,bytes32 proposal,string choice,string reason,string app,string metadata)"
+            "Vote(string from,string space,uint64 timestamp,bytes32 proposal,string choice,string reason,string app,string metadata)"
         );
 
     constructor(address _signMessageLib) {
@@ -76,7 +76,7 @@ contract SnapshotSigner {
         _sign(
             abi.encode(
                 VOTE_TYPE_HASH,
-                vote.from,
+                keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
@@ -97,7 +97,7 @@ contract SnapshotSigner {
         _sign(
             abi.encode(
                 VOTE_ARRAY_TYPE_HASH,
-                vote.from,
+                keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
@@ -118,7 +118,7 @@ contract SnapshotSigner {
         _sign(
             abi.encode(
                 VOTE_STRING_TYPE_HASH,
-                vote.from,
+                keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
                 vote.proposal,
