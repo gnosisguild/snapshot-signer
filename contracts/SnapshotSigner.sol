@@ -15,37 +15,56 @@ contract SnapshotSigner {
     }
     bytes32 private constant DOMAIN_TYPE_HASH = keccak256("EIP712Domain(string name,string version)");
 
-    struct Vote {
+    // https://github.com/snapshot-labs/sx-monorepo/blob/fbb53dc9061babb740f3b83fcd9ec7e06ab71ac1/packages/sx.js/src/clients/offchain/ethereum-sig/types.ts#L6
+    struct BasicVote {
         string from;
         string space;
         uint64 timestamp;
-        bytes32 proposal;
+        string proposal;
         uint32 choice;
         string reason;
         string app;
         string metadata;
     }
-    bytes32 private constant VOTE_TYPE_HASH =
+    bytes32 private constant BASIC_VOTE_TYPE_HASH =
         keccak256(
-            "Vote(string from,string space,uint64 timestamp,bytes32 proposal,uint32 choice,string reason,string app,string metadata)"
+            "Vote(string from,string space,uint64 timestamp,string proposal,uint32 choice,string reason,string app,string metadata)"
         );
 
-    struct VoteArray {
+    // https://github.com/snapshot-labs/sx-monorepo/blob/fbb53dc9061babb740f3b83fcd9ec7e06ab71ac1/packages/sx.js/src/clients/offchain/ethereum-sig/types.ts#L21
+    struct ArrayVote {
         string from;
         string space;
         uint64 timestamp;
-        bytes32 proposal;
+        string proposal;
         uint32[] choice;
         string reason;
         string app;
         string metadata;
     }
-    bytes32 private constant VOTE_ARRAY_TYPE_HASH =
+    bytes32 private constant ARRAY_VOTE_TYPE_HASH =
         keccak256(
-            "Vote(string from,string space,uint64 timestamp,bytes32 proposal,uint32[] choice,string reason,string app,string metadata)"
+            "Vote(string from,string space,uint64 timestamp,string proposal,uint32[] choice,string reason,string app,string metadata)"
         );
 
-    struct VoteString {
+    // https://github.com/snapshot-labs/sx-monorepo/blob/fbb53dc9061babb740f3b83fcd9ec7e06ab71ac1/packages/sx.js/src/clients/offchain/ethereum-sig/types.ts#L49
+    struct WeightedVote {
+        string from;
+        string space;
+        uint64 timestamp;
+        string proposal;
+        string choice;
+        string reason;
+        string app;
+        string metadata;
+    }
+    bytes32 private constant WEIGHTED_VOTE_TYPE_HASH =
+        keccak256(
+            "Vote(string from,string space,uint64 timestamp,string proposal,string choice,string reason,string app,string metadata)"
+        );
+    
+    // https://github.com/snapshot-labs/sx-monorepo/blob/fbb53dc9061babb740f3b83fcd9ec7e06ab71ac1/packages/sx.js/src/clients/offchain/ethereum-sig/types.ts#L36C14-L36C32
+    struct EncryptedVote {
         string from;
         string space;
         uint64 timestamp;
@@ -55,10 +74,10 @@ contract SnapshotSigner {
         string app;
         string metadata;
     }
-    bytes32 private constant VOTE_STRING_TYPE_HASH =
+    bytes32 private constant ENCRYPTED_VOTE_TYPE_HASH =
         keccak256(
             "Vote(string from,string space,uint64 timestamp,bytes32 proposal,string choice,string reason,string app,string metadata)"
-        );
+        ); 
 
     constructor(address _signMessageLib) {
         if (_signMessageLib == address(0)) {
@@ -72,14 +91,14 @@ contract SnapshotSigner {
      * @notice Marks a snapshot vote message as signed.
      * @param vote The snapshot single choice vote message.
      */
-    function signSnapshotVote(Vote calldata vote, Domain calldata domain) external {
+    function signSnapshotVote(BasicVote calldata vote, Domain calldata domain) external {
         _sign(
             abi.encode(
-                VOTE_TYPE_HASH,
+                BASIC_VOTE_TYPE_HASH,
                 keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
-                vote.proposal,
+                keccak256(bytes(vote.proposal)),
                 vote.choice,
                 keccak256(bytes(vote.reason)),
                 keccak256(bytes(vote.app)),
@@ -93,14 +112,14 @@ contract SnapshotSigner {
      * @notice Marks a snapshot vote message as signed.
      * @param vote The snapshot multiple choice vote message.
      */
-    function signSnapshotArrayVote(VoteArray calldata vote, Domain calldata domain) external {
+    function signSnapshotArrayVote(ArrayVote calldata vote, Domain calldata domain) external {
         _sign(
             abi.encode(
-                VOTE_ARRAY_TYPE_HASH,
+                ARRAY_VOTE_TYPE_HASH,
                 keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
-                vote.proposal,
+                keccak256(bytes(vote.proposal)),
                 keccak256(abi.encodePacked(vote.choice)),
                 keccak256(bytes(vote.reason)),
                 keccak256(bytes(vote.app)),
@@ -112,12 +131,34 @@ contract SnapshotSigner {
 
     /**
      * @notice Marks a snapshot vote message as signed.
-     * @param vote The snapshot string vote message.
+     * @param vote The snapshot weighted vote message.
      */
-    function signSnapshotStringVote(VoteString calldata vote, Domain calldata domain) external {
+    function signSnapshotWeightedVote(WeightedVote calldata vote, Domain calldata domain) external {
         _sign(
             abi.encode(
-                VOTE_STRING_TYPE_HASH,
+                WEIGHTED_VOTE_TYPE_HASH,
+                keccak256(bytes(vote.from)),
+                keccak256(bytes(vote.space)),
+                vote.timestamp,
+                keccak256(bytes(vote.proposal)),
+                keccak256(bytes(vote.choice)),
+                keccak256(bytes(vote.reason)),
+                keccak256(bytes(vote.app)),
+                keccak256(bytes(vote.metadata))
+            ),
+            domain
+        );
+    }
+
+
+    /**
+     * @notice Marks a snapshot vote message as signed.
+     * @param vote The snapshot encrypted vote message.
+     */
+    function signSnapshotEncryptedVote(EncryptedVote calldata vote, Domain calldata domain) external {
+        _sign(
+            abi.encode(
+                ENCRYPTED_VOTE_TYPE_HASH,
                 keccak256(bytes(vote.from)),
                 keccak256(bytes(vote.space)),
                 vote.timestamp,
