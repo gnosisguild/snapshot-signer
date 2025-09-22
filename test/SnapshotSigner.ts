@@ -215,7 +215,7 @@ describe("SnapshotSigner", () => {
     });
   });
 
-  describe("signSnapshotWeightedVote()", () => {
+  describe("signSnapshotStringVote()", () => {
     it("correctly encodes the typed message", async () => {
       const { safe, snapshotSigner, signMessageLib } = await loadFixture(deploySnapshotSignerFixtureWithLibMock);
 
@@ -235,7 +235,7 @@ describe("SnapshotSigner", () => {
         version: "0.1.4",
       };
 
-      const signVoteTxData = SnapshotSigner__factory.createInterface().encodeFunctionData("signSnapshotWeightedVote", [
+      const signVoteTxData = SnapshotSigner__factory.createInterface().encodeFunctionData("signSnapshotStringVote", [
         vote,
         domain,
       ]);
@@ -252,58 +252,6 @@ describe("SnapshotSigner", () => {
             { name: "space", type: "string" },
             { name: "timestamp", type: "uint64" },
             { name: "proposal", type: "string" },
-            { name: "choice", type: "string" },
-            { name: "reason", type: "string" },
-            { name: "app", type: "string" },
-            { name: "metadata", type: "string" },
-          ],
-        },
-        primaryType: "Vote",
-        message: vote,
-      });
-
-      expect(data).to.equal(expectedData);
-    });
-  });
-
-  describe("signSnapshotEncryptedVote()", () => {
-    it("correctly encodes the typed message", async () => {
-      const { safe, snapshotSigner, signMessageLib } = await loadFixture(deploySnapshotSignerFixtureWithLibMock);
-
-      const vote = {
-        from: "0xfd0b893117d583bd63c31bb90a25842c739e8322",
-        space: "1.snapspace.eth",
-        timestamp: 1719486640n,
-        proposal: "0x27a4fe0aaad6665e37788b3e97d98165f287a8338d0676697aea46047465d026",
-        choice:
-          "0x1231231231231231231231231231231231231231231231231231231231231231123123123123123123123123123123123123123123123123123123",
-        reason: "",
-        app: "snapshot",
-        metadata: "{}",
-      } as const;
-
-      const domain = {
-        name: "snapshot",
-        version: "0.1.4",
-      };
-
-      const signVoteTxData = SnapshotSigner__factory.createInterface().encodeFunctionData("signSnapshotEncryptedVote", [
-        vote,
-        domain,
-      ]);
-
-      const res = await safe.exec(await snapshotSigner.getAddress(), 0, signVoteTxData, 1);
-      const rec = await res.wait();
-      const [data] = signMessageLib.interface.decodeEventLog("SignMessage", rec!.logs[0].data);
-
-      const expectedData = hashTypedData({
-        domain,
-        types: {
-          Vote: [
-            { name: "from", type: "string" },
-            { name: "space", type: "string" },
-            { name: "timestamp", type: "uint64" },
-            { name: "proposal", type: "bytes32" },
             { name: "choice", type: "string" },
             { name: "reason", type: "string" },
             { name: "app", type: "string" },
