@@ -46,8 +46,8 @@ jobs:
       - name: "Compile the contracts and generate the TypeChain bindings"
         run: "bun run typechain"
 
-      - name: "Test the contracts and generate the coverage report"
-        run: "bun run coverage"
+      - name: "Test the contracts"
+        run: "bun run test"
 
       - name: "Add test summary"
         run: |

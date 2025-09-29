@@ -21,7 +21,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   let jsonRpcUrl: string;
   switch (chain) {
     case "arbitrum":
-      jsonRpcUrl = "https://rpc.ankr.com/arbitrum";
+      jsonRpcUrl = "https://arb1.arbitrum.io/rpc";
       break;
     case "gnosis":
       jsonRpcUrl = "https://rpc.gnosischain.com";
@@ -39,11 +39,7 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   etherscan: {
-    apiKey: {
-      mainnet: ETHERSCAN_API_KEY!,
-      sepolia: ETHERSCAN_API_KEY!,
-      arbitrumOne: ARBISCAN_API_KEY,
-    },
+    apiKey: ETHERSCAN_API_KEY!,
   },
   gasReporter: {
     currency: "USD",
